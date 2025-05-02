@@ -1,4 +1,5 @@
 import java.util.Scanner;
+
 public class RingAlgorithm {
     public static void main(String[] args) {
         int i, j;
@@ -50,6 +51,7 @@ public class RingAlgorithm {
             }
         }
     }
+
     public static void initiateElection(Process[] processes, int initiatorIndex, int numberOfProcesses) {
         System.out.println("Election initiated by Process " + processes[initiatorIndex].id);
         int[] electionMessage = new int[1];
@@ -82,11 +84,12 @@ public class RingAlgorithm {
         currentIndex = coordinatorIndex;
         do {
             System.out.println("Process " + processes[currentIndex].id +
-                              (processes[currentIndex].id == coordinatorID ? " (coordinator)" : "") +
-                              " is informed about the new coordinator");
+                    (processes[currentIndex].id == coordinatorID ? " (coordinator)" : "") +
+                    " is informed about the new coordinator");
             currentIndex = (currentIndex + 1) % numberOfProcesses;
         } while (currentIndex != coordinatorIndex);
     }
+
     private static int findMax(int[] array) {
         int max = array[0];
         for (int i = 1; i < array.length; i++) {
@@ -97,6 +100,7 @@ public class RingAlgorithm {
         return max;
     }
 }
+
 class Process {
     public int index;
     public int id;

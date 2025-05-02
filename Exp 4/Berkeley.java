@@ -14,8 +14,8 @@ public class Berkeley {
         Thread timeServerThread = new Thread(() -> {
             while (true) {
                 try (Socket clientSocket = serverSocket.accept();
-                     ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
-                     ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream())) {
+                        ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
+                        ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream())) {
 
                     Date clientTime = (Date) in.readObject();
                     out.writeObject(new Date());
@@ -28,13 +28,14 @@ public class Berkeley {
                 }
             }
         });
+
         timeServerThread.start();
 
         Thread timeClientThread = new Thread(() -> {
             while (true) {
                 try (Socket socket = new Socket("localhost", PORT);
-                     ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-                     ObjectInputStream in = new ObjectInputStream(socket.getInputStream())) {
+                        ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+                        ObjectInputStream in = new ObjectInputStream(socket.getInputStream())) {
 
                     out.writeObject(new Date());
                     Date serverTime = (Date) in.readObject();
