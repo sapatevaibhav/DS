@@ -1,3 +1,5 @@
+// javac *.java
+// java Berkeley
 import java.io.*;
 import java.net.*;
 import java.util.*;

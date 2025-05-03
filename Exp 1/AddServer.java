@@ -1,3 +1,9 @@
+// javac *.java
+// rmic AddServerImpl
+// rmiregistry
+
+// java AddServer
+// java AddClient 127.0.0.1 2 10
 import java.rmi.Naming;
 
 public class AddServer {

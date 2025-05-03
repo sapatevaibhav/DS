@@ -1,5 +1,7 @@
+// javac *.java
 // orbd -ORBInitialPort 1050&
 // java ReverseServer -ORBInitialPort 1050& -ORBInitialHost localhost&
+
 // java ReverseClient -ORBInitialPort 1050 -ORBInitialHost localhost
 import ReverseModule.Reverse;
 import org.omg.CosNaming.*;
