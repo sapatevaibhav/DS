@@ -1,6 +1,7 @@
 // wget http://downloads.sourceforge.net/mpjexpress/mpj-v0_44.tar.gz
 // tar -xzf mpj-v0_44.tar.gz
 // set -x MPJ_HOME "/home/user/Downloads/DS Experiments/DS Experiments/mpj-v0_44";
+// javac -cp "$MPJ_HOME/lib/mpj.jar" DistributedSum.java
 // java -jar "$MPJ_HOME/lib/starter.jar" -np 4 DistributedSum
 
 import mpi.*;
@@ -15,8 +16,12 @@ public class DistributedSum {
         int localSum = 0;
         int[] recvBuffer = new int[1];
 
-        int startIndex = rank * (array.length / size);
-        int endIndex = (rank + 1) * (array.length / size);
+        int elementsPerProcess = array.length / size;
+        int extraElements = array.length % size;
+
+        int startIndex = rank * elementsPerProcess + Math.min(rank, extraElements);
+        int endIndex = startIndex + elementsPerProcess + (rank < extraElements ? 1 : 0);
+
         for (int i = startIndex; i < endIndex; i++) {
             localSum += array[i];
         }
