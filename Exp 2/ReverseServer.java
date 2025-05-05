@@ -1,3 +1,4 @@
+// idlj -fall Reverse.idl
 // javac *.java
 // orbd -ORBInitialPort 1050&
 // java ReverseServer -ORBInitialPort 1050& -ORBInitialHost localhost&
