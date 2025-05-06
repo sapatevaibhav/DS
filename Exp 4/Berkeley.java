@@ -53,7 +53,7 @@ public class Berkeley {
         });
         timeClientThread.start();
 
-        Thread.sleep(20000);
+        Thread.sleep(5000);
 
         long sumTimeDiff = 0;
         for (Long timeDiff : timeDiffs) {

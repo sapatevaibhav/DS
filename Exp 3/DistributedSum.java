@@ -1,6 +1,9 @@
 // wget http://downloads.sourceforge.net/mpjexpress/mpj-v0_44.tar.gz
 // tar -xzf mpj-v0_44.tar.gz
+
 // set -x MPJ_HOME "/home/user/Downloads/DS Experiments/DS Experiments/mpj-v0_44";
+
+
 // javac -cp "$MPJ_HOME/lib/mpj.jar" DistributedSum.java
 // java -jar "$MPJ_HOME/lib/starter.jar" -np 4 DistributedSum
 

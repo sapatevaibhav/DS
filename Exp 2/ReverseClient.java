@@ -17,7 +17,7 @@ class ReverseClient {
             String name = "Reverse";
             // narrow converts generic object into string type
             ReverseImpl = ReverseHelper.narrow(ncRef.resolve_str(name));
-            System.out.println("Enter String=");
+            System.out.print("Enter String=");
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             String str = br.readLine();
 
