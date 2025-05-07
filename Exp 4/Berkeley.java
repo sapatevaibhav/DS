@@ -47,7 +47,6 @@ public class Berkeley {
         System.out.println("Average time difference: " + avgTimeDiff + " ms");
 
         adjustClock(avgTimeDiff);
-        serverSocket.close();
     }
 
     private static void adjustClock(long avgTimeDiff) {
