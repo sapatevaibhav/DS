@@ -1,3 +1,7 @@
+// sudo apt installl openjdk-8-jdk -y
+// sudo update-alternatives --config javac
+// sudo update-alternatives --config java
+
 // idlj -fall Reverse.idl
 // javac *.java
 // orbd -ORBInitialPort 1050&

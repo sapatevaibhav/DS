@@ -1,5 +1,6 @@
 // javac *.java
 // java Tok
+
 import java.io.*;
 import java.util.*;
 
