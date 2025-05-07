@@ -1,5 +1,6 @@
-// javac *.java
+// javac Berkeley.java
 // java Berkeley
+
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -7,12 +8,12 @@ import java.util.*;
 public class Berkeley {
 
     private static final int PORT = 9876;
+    private static final int NUM_CLIENTS = 3;
+    private static final List<Long> timeDiffs = Collections.synchronizedList(new ArrayList<>());
 
     public static void main(String[] args) throws Exception {
 
         ServerSocket serverSocket = new ServerSocket(PORT);
-        List<Long> timeDiffs = Collections.synchronizedList(new ArrayList<Long>());
-
         Thread timeServerThread = new Thread(() -> {
             while (true) {
                 try (Socket clientSocket = serverSocket.accept();
@@ -30,18 +31,49 @@ public class Berkeley {
                 }
             }
         });
-
         timeServerThread.start();
 
-        Thread timeClientThread = new Thread(() -> {
+        for (int i = 0; i < NUM_CLIENTS; i++) {
+            Thread clientThread = new Thread(new TimeClient(i));
+            clientThread.start();
+        }
+        Thread.sleep(5000);
+
+        long sumTimeDiff = 0;
+        for (Long timeDiff : timeDiffs) {
+            sumTimeDiff += timeDiff;
+        }
+        long avgTimeDiff = sumTimeDiff / timeDiffs.size();
+        System.out.println("Average time difference: " + avgTimeDiff + " ms");
+
+        adjustClock(avgTimeDiff);
+        serverSocket.close();
+    }
+
+    private static void adjustClock(long avgTimeDiff) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.MILLISECOND, (int) avgTimeDiff);
+        System.out.println("Adjusted time: " + calendar.getTime());
+    }
+
+    static class TimeClient implements Runnable {
+        private final int clientId;
+
+        public TimeClient(int clientId) {
+            this.clientId = clientId;
+        }
+
+        public void run() {
             while (true) {
                 try (Socket socket = new Socket("localhost", PORT);
                         ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
                         ObjectInputStream in = new ObjectInputStream(socket.getInputStream())) {
 
-                    out.writeObject(new Date());
-                    Date serverTime = (Date) in.readObject();
+                    Date myTime = new Date();
+                    out.writeObject(myTime);
 
+                    Date serverTime = (Date) in.readObject();
                     long timeDiff = serverTime.getTime() - new Date().getTime();
                     timeDiffs.add(timeDiff);
 
@@ -50,25 +82,6 @@ public class Berkeley {
                     e.printStackTrace();
                 }
             }
-        });
-        timeClientThread.start();
-
-        Thread.sleep(5000);
-
-        long sumTimeDiff = 0;
-        for (Long timeDiff : timeDiffs) {
-            sumTimeDiff += timeDiff;
         }
-        long avgTimeDiff = sumTimeDiff / timeDiffs.size();
-        System.out.println("Average time difference: " + avgTimeDiff);
-
-        adjustClock(avgTimeDiff);
-    }
-
-    private static void adjustClock(long avgTimeDiff) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-        calendar.add(Calendar.MILLISECOND, (int) avgTimeDiff);
-        System.out.println("Adjusted time: " + calendar.getTime());
     }
 }
